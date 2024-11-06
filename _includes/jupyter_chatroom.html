@@ -84,6 +84,49 @@
     button:hover {
         background-color: #7a3e9d; 
     }
+
+    /* Dropdown button styling */
+    .dropdown {
+        position: relative;
+        display: inline-block;
+    }
+
+    .dropbtn {
+        background-color: #3498db;
+        color: white;
+        padding: 10px;
+        font-size: 16px;
+        border: none;
+        cursor: pointer;
+    }
+
+    /* Dropdown content (hidden by default) */
+    .dropdown-content {
+        display: none;
+        position: absolute;
+        background-color: #f9f9f9;
+        min-width: 160px;
+        box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+        z-index: 1;
+    }
+
+    /* Links inside the dropdown */
+    .dropdown-content a {
+        color: black;
+        padding: 12px 16px;
+        text-decoration: none;
+        display: block;
+    }
+
+    /* Show dropdown on hover */
+    .dropdown:hover .dropdown-content {
+        display: block;
+    }
+
+    /* Change color on hover */
+    .dropdown-content a:hover {
+        background-color: #f1f1f1;
+    }
 </style>
 
 <div class="nav-buttons">
@@ -93,69 +136,9 @@
     <a href="/flocker_frontend/shared_interests/jupyter/resources/" class="nav-button">Resources</a>
 </div>
 
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Simple Dropdown</title>
-    <style>
-        /* Dropdown button styling */
-        .dropdown {
-            position: relative;
-            display: inline-block;
-        }
-
-        .dropbtn {
-            background-color: #3498db;
-            color: white;
-            padding: 10px;
-            font-size: 16px;
-            border: none;
-            cursor: pointer;
-        }
-
-        /* Dropdown content (hidden by default) */
-        .dropdown-content {
-            display: none;
-            position: absolute;
-            background-color: #f9f9f9;
-            min-width: 160px;
-            box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
-            z-index: 1;
-        }
-
-        /* Links inside the dropdown */
-        .dropdown-content a {
-            color: black;
-            padding: 12px 16px;
-            text-decoration: none;
-            display: block;
-        }
-
-        /* Show dropdown on hover */
-        .dropdown:hover .dropdown-content {
-            display: block;
-        }
-
-        /* Change color on hover */
-        .dropdown-content a:hover {
-            background-color: #f1f1f1;
-        }
-    </style>
-</head>
-<body>
-    <div class="container">
+<div class="container">
     <div class="form-container">
-        <!--<h2>Add New Post</h2>-->
         <form id="postForm">
-           <!-- <label for="title">Title:</label>
-            <input type="text" id="title" name="title" required>
-            <label for="content">Content:</label>
-            <textarea id="content" name="content" required></textarea>
-            <label for="group_id">Group:</label>-->
-            <!-- <input typr="text" id="username" name="username" />
-            <input typr="text" id="password" name="password" />
-            <button type="Login">Login</button> -->
             <br/>
             <label>Please select a group:</label>
             <select id="group_id" name="group_id" required>
@@ -166,16 +149,14 @@
             <select id="channel_id" name="channel_id" required>
                 <option value="">Select a channel</option>
             </select>
-           <button type="submit">Show Post</button> 
+            <button type="submit">Show Post</button> 
         </form>
     </div>
 </div>
 
 <script type="module">
-    // Import server URI and standard fetch options
     import { pythonURI, fetchOptions } from '/flocker_frontend/assets/js/api/config.js';
 
-    // Fetch groups for dropdown selection
     async function fetchGroups() {
         try {
             const response = await fetch(`${pythonURI}/api/groups`, fetchOptions);
@@ -208,104 +189,13 @@
             console.error('Error fetching groups:', error);
         }
     }
-    
 
-    // Handle form submission
     document.getElementById('postForm').addEventListener('submit', async function(event) {
-        // Prevent default from submission
-      /*  event.preventDefault();
-
-        // Extract data from form
-        const title = document.getElementById('title').value;
-        const content = document.getElementById('content').value;
-        const group_id = document.getElementById('group_id').value;
-
-        // Create API payload
-        const postData = {
-            title: title,
-            content: content,
-            group_id: group_id
-        };
-
-        // Trap errors
-        try {
-            // Send POST request to backend, purpose is to write to database
-            const response = await fetch(`${pythonURI}/api/post`, {
-                ...fetchOptions,
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify(postData)
-            });
-
-            if (!response.ok) {
-                throw new Error('Failed to add post: ' + response.statusText);
-            }
-
-            // Succesfull post
-            const result = await response.json();
-            alert('Post added successfully!');
-            document.getElementById('postForm').reset();
-        } catch (error) {
-            // Present alert on error from backend
-            console.error('Error adding post:', error);
-            alert('Error adding post: ' + error.message);
-        } */
-  // Prevent default from submission
         event.preventDefault();
-
-
-      /*  // Create API payload
-        const postData = {
-            uid: username,
-            password: password,
-        };
-
-        // Trap errors
-        try {
-            // Send POST request to backend, purpose is to write to database
-            const response = await fetch(`${pythonURI}/authenticate/uid=` + username + `&password=` + password, {
-                ...fetchOptions,
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify(postData)
-            });
-
-            if (!response.ok) {
-                throw new Error('Failed to login: ' + response.statusText);
-            }
-
-            // Succesfull post
-            const result = await response.json();
-            alert('Login success!');
-            //document.getElementById('postForm').reset();
-        } catch (error) {
-            // Present alert on error from backend
-            console.error('Error login', error);
-            alert('Error login: ' + error.message);
-        } 
-*/
     });
 
-    // Fetch groups when the page loads
     fetchGroups();
-    
 </script>
-<!--<div class="dropdown">
-    <button class="dropbtn">Dropdown</button>
-    <div class="dropdown-content">
-        <a href="#">Option 1</a>
-        <a href="#">Option 2</a>
-        <a href="#">Option 3</a>
-    </div>
-</div>-->
-
-</body>
-</html>
-
 
 <div class="chatroom">
     <header>
@@ -313,19 +203,17 @@
         <h1>Jupyter</h1>
     </header>
     <div class="messages" id="messages">
-        <!-- Messages will appear here -->
     </div>
     <input type="text" id="messageInput" placeholder="Type a message...">
     <button id="sendButton">Send</button>
-
 </div>
+
 <script>
     const sendButton = document.getElementById('sendButton');
     const messageInput = document.getElementById('messageInput');
     const messagesContainer = document.getElementById('messages');
 
     sendButton.addEventListener('click', () => {
-        
         const messageText = messageInput.value;
         if (messageText.trim() !== '') {
             const messageElement = document.createElement('div');
@@ -342,4 +230,3 @@
         }
     });
 </script>
- 
