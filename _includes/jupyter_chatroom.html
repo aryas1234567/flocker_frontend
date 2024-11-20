@@ -207,7 +207,10 @@ const channelId=1;
 //     },
 //     body: JSON.stringify({ channel_id: channelId })
 // });
+
 const postData = await response.json();
+alert('Posts received successfully!');
+
 const detailsDiv = document.getElementById('messages');
 
 postData.forEach(postItem => {
@@ -233,7 +236,8 @@ postData.forEach(postItem => {
     </header>
     <div class="messages" id="messages">
     </div>
-     <input type="text" id="messageInput" placeholder="Type a message...">
+    <input type="text" id="titleInput" placeholder="Type a title...">
+    <input type="text" id="messageInput" placeholder="Type a message...">
     <button id="sendButton">Send</button>
 </div>
 
@@ -241,16 +245,16 @@ postData.forEach(postItem => {
 <script>
     const sendButton = document.getElementById('sendButton');
     const messageInput = document.getElementById('messageInput');
+    const titleInput = document.getElementById('titleInput');
     const messagesContainer = document.getElementById('messages');
     async function PostMessages() {
          // Extract data from form
         
-         const title = document.getElementById('messageInput');; //document.getElementById('title').value;
-        const content = document.getElementById('messageInput');; //document.getElementById('content').value;
-        const group_id = 1; //document.getElementById('group_id').value;
-       
-        const comment = document.getElementById('messageInput');; //document.getElementById('content').value;
-        const channel_id = 1; //document.getElementById('group_id').value;
+         var title = document.getElementById('titleInput').value; //document.getElementById('title').value;
+        var content = "test content"; //document.getElementById('content').value;
+        var group_id = document.getElementById('group_id').value;
+        var comment = document.getElementById('messageInput').value; //document.getElementById('content').value;
+        var channel_id = document.getElementById('channel_id').value;
         const messageText = messageInput.value;
         if (messageText.trim() !== '') {
             const messageElement = document.createElement('div');
@@ -265,13 +269,18 @@ postData.forEach(postItem => {
     //     }
     // });
         // Create API payload
+      
+        
         const postData = {
             // title: title,
             // content: content,
             // group_id: group_id
             title: title,
-            comment: comment,
+            comment: messageText,
+            content:content,
+             user_id:'1',
             channel_id: channel_id
+            
 
         };
         const loginData = {
@@ -296,8 +305,13 @@ const loginResponse = await fetch(`${pythonURI}/api/authenticate?uid=Toby&passwo
                 },
                  body: JSON.stringify(loginData)
             });
+          //  alert(loginResponse);
+        /*}
+        catch(error){
+                        alert('Error login: ' + error.message);
+        }*/
 //const loginDt = await loginResponse.json();
-            const response = await fetch(`${pythonURI}/api/post`, {
+           const response = await fetch(`${pythonURI}/api/post`, {
                                method: 'POST',
                               mode: 'cors', // no-cors, *cors, same-origin
     cache: 'default', // *default, no-cache, reload, force-cache, only-if-cached
